@@ -6,7 +6,7 @@
 /*   By: kpucylo <kpucylo@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 22:25:38 by kpucylo           #+#    #+#             */
-/*   Updated: 2022/03/09 23:26:21 by kpucylo          ###   ########.fr       */
+/*   Updated: 2022/03/09 23:46:08 by kpucylo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,4 +26,7 @@ int	main(int argc, char **argv)
 		return (throw_error("Failed to initialize mutexes"));
 	else if (error_check == 3)
 		return (throw_error("Failed to allocate memory for philosophers"));
+	if (start(&state))
+		return (throw_error("Failed to create threads"));
+	return (0);
 }

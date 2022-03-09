@@ -6,7 +6,7 @@
 /*   By: kpucylo <kpucylo@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 22:31:36 by kpucylo           #+#    #+#             */
-/*   Updated: 2022/03/09 23:25:47 by kpucylo          ###   ########.fr       */
+/*   Updated: 2022/03/09 23:44:30 by kpucylo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ int	init_philosophers(t_state *state)
 		state->philos[i].r_fork = (i + 1) % state->philo_amount;
 		state->philos[i].last_meal = 0;
 		state->philos[i].state = state;
+		i++;
 	}
 	return (0);
 }
@@ -68,7 +69,7 @@ int	init_all(t_state *state, char **argv, int argc)
 	state->all_ate = 0;
 	if (state->philo_amount < 2 || state->time_to_die < 0 \
 		|| state->time_to_eat < 0 || state->time_to_sleep < 0 || \
-		state->num_eat <= 0)
+		(state->num_eat <= 0 && argc == 6))
 		return (1);
 	if (init_mutex(state))
 		return (2);

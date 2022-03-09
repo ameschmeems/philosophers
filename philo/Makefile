@@ -1,6 +1,11 @@
 NAME		:=	philo
 
-SRCS		:=	main.c \		
+SRCS		:=	main.c \
+				error.c \
+				ft_atoi.c \
+				ft_isdigit.c \
+				init.c \
+				start.c
 
 OBJS		:=	${SRCS:.c=.o}
 
