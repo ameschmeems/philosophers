@@ -6,7 +6,7 @@
 /*   By: kpucylo <kpucylo@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 17:00:10 by kpucylo           #+#    #+#             */
-/*   Updated: 2022/03/09 20:42:50 by kpucylo          ###   ########.fr       */
+/*   Updated: 2022/03/09 23:17:05 by kpucylo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,53 +20,44 @@
 # include <sys/time.h>
 # include <pthread.h>
 
-enum	e_state
-{
-	EAT,
-	SLEEP,
-	FORK,
-	THINK,
-	DEAD
-};
-
 struct	s_state;
 
 typedef struct s_philo
 {
-	int				is_eating;
-	int				position;
+	int				id;
+	int				ate;
 	int				l_fork;
 	int				r_fork;
-	int				eat_count;
-	uint64_t		limit;
-	uint64_t		last_eat;
+	long long		last_meal;
 	struct s_state	*state;
+	pthread_t		thread_id;
 }	t_philo;
 
 typedef struct s_state
 {
-	int				number_of_philosophers;
+	int				philo_amount;
 	int				time_to_die;
 	int				time_to_eat;
 	int				time_to_sleep;
-	int				number_of_times;
-	uint64_t		start;
-	t_philo			*philos;
+	int				num_eat;
+	int				dead;
+	int				all_ate;
+	long long		start;
+	pthread_mutex_t	meal_check;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	write;
+	t_philo			*philos;
 }	t_state;
 
 //init
-int			init(t_state *state, char **argv, int argc);
-
-//messages
-void		display_message(int state, t_philo *philo);
-
-//utils
-int			ft_atoi(const char *nptr);
-uint64_t	get_time(void);
+int	init_all(t_state *state, char **argv, int argc);
 
 //errors
-int			throw_error(char *str);
+int	throw_error(char *str);
+int	check_arguments(int argc, char **argv);
+
+//utils
+int	ft_atoi(const char *nptr);
+int	ft_isdigit(int c);
 
 #endif

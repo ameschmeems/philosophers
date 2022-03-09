@@ -1,21 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   ft_isdigit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kpucylo <kpucylo@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/09 20:15:51 by kpucylo           #+#    #+#             */
-/*   Updated: 2022/03/09 20:17:57 by kpucylo          ###   ########.fr       */
+/*   Created: 2021/11/16 17:43:44 by kpucylo           #+#    #+#             */
+/*   Updated: 2022/03/09 22:49:16 by kpucylo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philosophers.h"
-
-uint64_t	get_time(void)
+int	ft_isdigit(char c)
 {
-	struct timeval	tv;
-
-	gettimeofday(&tv, NULL);
-	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
+	if (c >= '0' && c <= '9')
+	{
+		return (1);
+	}
+	return (0);
 }

@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: kpucylo <kpucylo@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/09 17:04:37 by kpucylo           #+#    #+#             */
-/*   Updated: 2022/03/09 20:06:03 by kpucylo          ###   ########.fr       */
+/*   Created: 2022/03/09 22:25:38 by kpucylo           #+#    #+#             */
+/*   Updated: 2022/03/09 23:26:21 by kpucylo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,15 @@
 int	main(int argc, char **argv)
 {
 	t_state	state;
+	int		error_check;
 
 	if (argc < 5 || argc > 6)
 		return (throw_error("Wrong number of arguments"));
-	if (init(&state, argv, argc))
-		return (throw_error("Init failed"));
-	return (0);
+	error_check = init_all(&state, argv, argc);
+	if (error_check == 1)
+		return (throw_error("Invalid arguments"));
+	else if (error_check == 2)
+		return (throw_error("Failed to initialize mutexes"));
+	else if (error_check == 3)
+		return (throw_error("Failed to allocate memory for philosophers"));
 }
