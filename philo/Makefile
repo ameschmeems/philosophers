@@ -5,18 +5,19 @@ SRCS		:=	main.c \
 				ft_atoi.c \
 				ft_isdigit.c \
 				init.c \
-				start.c
+				start.c \
+				utils.c
 
 OBJS		:=	${SRCS:.c=.o}
 
 CC			:=	gcc
 
-CFLAGS		:=	-Wall -Wextra -Werror -pthread
+CFLAGS		:=	-Wall -Wextra -Werror
 
 all:		${NAME}
 
 ${NAME}:	${OBJS}
-		${CC} ${OBJS} -o ${NAME}
+		${CC} ${OBJS} -o ${NAME} -pthread
 
 clean:
 		rm -f ${OBJS}

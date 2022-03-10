@@ -6,7 +6,7 @@
 /*   By: kpucylo <kpucylo@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 17:00:10 by kpucylo           #+#    #+#             */
-/*   Updated: 2022/03/09 23:17:05 by kpucylo          ###   ########.fr       */
+/*   Updated: 2022/03/10 02:13:21 by kpucylo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,15 @@
 # include <stdio.h>
 # include <sys/time.h>
 # include <pthread.h>
+
+enum
+{
+	FORK,
+	EAT,
+	SLEEP,
+	THINK,
+	DEAD
+};
 
 struct	s_state;
 
@@ -44,20 +53,27 @@ typedef struct s_state
 	int				all_ate;
 	long long		start;
 	pthread_mutex_t	meal_check;
-	pthread_mutex_t	*forks;
+	pthread_mutex_t	forks[200];
 	pthread_mutex_t	write;
-	t_philo			*philos;
+	t_philo			philos[200];
 }	t_state;
 
 //init
-int	init_all(t_state *state, char **argv, int argc);
+int			init_all(t_state *state, char **argv, int argc);
 
 //errors
-int	throw_error(char *str);
-int	check_arguments(int argc, char **argv);
+int			throw_error(char *str);
+int			check_arguments(int argc, char **argv);
+
+//program
+int			start(t_state *state);
+void		print_message(t_state *state, int id, int action);
 
 //utils
-int	ft_atoi(const char *nptr);
-int	ft_isdigit(int c);
+int			ft_atoi(const char *nptr);
+int			ft_isdigit(int c);
+long long	timestamp(void);
+long long	time_diff(long long past, long long pres);
+void		schleep(long long time, t_state *state);
 
 #endif
