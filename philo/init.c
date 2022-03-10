@@ -6,7 +6,7 @@
 /*   By: kpucylo <kpucylo@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 22:31:36 by kpucylo           #+#    #+#             */
-/*   Updated: 2022/03/10 02:13:51 by kpucylo          ###   ########.fr       */
+/*   Updated: 2022/03/10 05:19:01 by kpucylo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@ int	init_mutex(t_state *state)
 	int	i;
 
 	i = 0;
+	state->forks = malloc(sizeof(pthread_mutex_t) * state->philo_amount);
+	if (!state->forks)
+		return (1);
 	while (i < state->philo_amount)
 	{
 		if (pthread_mutex_init(&(state->forks[i]), NULL))
@@ -35,6 +38,9 @@ int	init_philosophers(t_state *state)
 	int	i;
 
 	i = 0;
+	state->philos = malloc(sizeof(t_philo) * state->philo_amount);
+	if (!(state->philos))
+		return (1);
 	while (i < state->philo_amount)
 	{
 		state->philos[i].id = i;

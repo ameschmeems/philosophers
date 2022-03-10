@@ -6,7 +6,7 @@
 /*   By: kpucylo <kpucylo@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 23:46:40 by kpucylo           #+#    #+#             */
-/*   Updated: 2022/03/10 02:00:12 by kpucylo          ###   ########.fr       */
+/*   Updated: 2022/03/10 05:18:51 by kpucylo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	philo_eats(t_philo *philo)
 {
-	t_state *state;
+	t_state	*state;
 
 	state = philo->state;
 	pthread_mutex_lock(&(state->forks[philo->l_fork]));
@@ -33,13 +33,13 @@ void	philo_eats(t_philo *philo)
 
 void	*routine(void *philosopher)
 {
-	int		i;
 	t_philo	*philo;
 	t_state	*state;
+	int		i;
 
-	i = 0;
 	philo = (t_philo *)philosopher;
 	state = philo->state;
+	i = 0;
 	if (philo->id % 2)
 		usleep(15000);
 	while (!(state->dead))
@@ -52,6 +52,7 @@ void	*routine(void *philosopher)
 		print_message(state, philo->id, THINK);
 		i++;
 	}
+	//printf("%i\n", i);
 	return (NULL);
 }
 
@@ -81,8 +82,8 @@ void	check_death(t_state *state, t_philo *p)
 
 	while (!(state->all_ate))
 	{
-		i = 0;
-		while (i < state->philo_amount && !(state->dead))
+		i = -1;
+		while (++i < state->philo_amount && !(state->dead))
 		{
 			pthread_mutex_lock(&(state->meal_check));
 			if (time_diff(p[i].last_meal, timestamp()) > state->time_to_die)

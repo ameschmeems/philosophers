@@ -6,7 +6,7 @@
 /*   By: kpucylo <kpucylo@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 17:00:10 by kpucylo           #+#    #+#             */
-/*   Updated: 2022/03/10 02:13:21 by kpucylo          ###   ########.fr       */
+/*   Updated: 2022/03/10 05:18:55 by kpucylo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,9 @@ typedef struct s_state
 	int				all_ate;
 	long long		start;
 	pthread_mutex_t	meal_check;
-	pthread_mutex_t	forks[200];
+	pthread_mutex_t	*forks;
 	pthread_mutex_t	write;
-	t_philo			philos[200];
+	t_philo			*philos;
 }	t_state;
 
 //init

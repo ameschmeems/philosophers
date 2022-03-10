@@ -6,7 +6,7 @@
 /*   By: kpucylo <kpucylo@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 23:52:03 by kpucylo           #+#    #+#             */
-/*   Updated: 2022/03/10 01:58:14 by kpucylo          ###   ########.fr       */
+/*   Updated: 2022/03/10 04:44:55 by kpucylo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ void	print_message(t_state *state, int id, int action)
 			printf("%lli Philosopher %i is thinking.\n", ts, id + 1);
 		else if (action == DEAD)
 			printf("%lli Philosopher %i died.\n", ts, id + 1);
-		pthread_mutex_unlock(&(state->write));
 	}
+	pthread_mutex_unlock(&(state->write));
 	return ;
 }
 

@@ -12,12 +12,12 @@ OBJS		:=	${SRCS:.c=.o}
 
 CC			:=	gcc
 
-CFLAGS		:=	-Wall -Wextra -Werror
+CFLAGS		:=	-Wall -Wextra -Werror -pthread
 
 all:		${NAME}
 
 ${NAME}:	${OBJS}
-		${CC} ${OBJS} -o ${NAME} -pthread
+		${CC} ${OBJS} -o ${NAME} ${CFLAGS}
 
 clean:
 		rm -f ${OBJS}
