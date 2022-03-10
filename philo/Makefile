@@ -6,13 +6,14 @@ SRCS		:=	main.c \
 				ft_isdigit.c \
 				init.c \
 				start.c \
-				utils.c
+				utils.c \
+				norm.c
 
 OBJS		:=	${SRCS:.c=.o}
 
 CC			:=	gcc
 
-CFLAGS		:=	-Wall -Wextra -Werror -pthread
+CFLAGS		:=	-Wall -Wextra -Werror -pthread -g -fsanitize=thread
 
 all:		${NAME}
 

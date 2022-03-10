@@ -6,7 +6,7 @@
 /*   By: kpucylo <kpucylo@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 22:25:38 by kpucylo           #+#    #+#             */
-/*   Updated: 2022/03/10 04:38:14 by kpucylo          ###   ########.fr       */
+/*   Updated: 2022/03/10 11:51:10 by kpucylo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,11 @@ int	main(int argc, char **argv)
 		return (throw_error("Invalid arguments"));
 	else if (error_check == 2)
 		return (throw_error("Failed to initialize mutexes"));
-	if (start(&state))
+	else if (error_check == 3)
+		return (throw_error("Failed to allocate memory"));
+	if (error_check == 4)
+		pthread_join(state.philos[0].thread_id, NULL);
+	else if (start(&state))
 		return (throw_error("Failed to create threads"));
 	free(state.forks);
 	free(state.philos);

@@ -6,7 +6,7 @@
 /*   By: kpucylo <kpucylo@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 23:46:40 by kpucylo           #+#    #+#             */
-/*   Updated: 2022/03/10 05:18:51 by kpucylo          ###   ########.fr       */
+/*   Updated: 2022/03/10 12:28:09 by kpucylo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,9 @@ void	philo_eats(t_philo *philo)
 	philo->last_meal = timestamp();
 	pthread_mutex_unlock(&(state->meal_check));
 	schleep(state->time_to_eat, state);
+	pthread_mutex_lock(&(state->ate));
 	(philo->ate)++;
+	pthread_mutex_unlock(&(state->ate));
 	pthread_mutex_unlock(&(state->forks[philo->l_fork]));
 	pthread_mutex_unlock(&(state->forks[philo->r_fork]));
 }
@@ -35,24 +37,12 @@ void	*routine(void *philosopher)
 {
 	t_philo	*philo;
 	t_state	*state;
-	int		i;
 
 	philo = (t_philo *)philosopher;
 	state = philo->state;
-	i = 0;
 	if (philo->id % 2)
 		usleep(15000);
-	while (!(state->dead))
-	{
-		philo_eats(philo);
-		if (state->all_ate)
-			break ;
-		print_message(state, philo->id, SLEEP);
-		schleep(state->time_to_sleep, state);
-		print_message(state, philo->id, THINK);
-		i++;
-	}
-	//printf("%i\n", i);
+	subroutine(philo, state);
 	return (NULL);
 }
 
@@ -74,6 +64,7 @@ void	finish(t_state *state)
 	}
 	pthread_mutex_destroy(&(state->write));
 	pthread_mutex_destroy(&(state->meal_check));
+	pthread_mutex_destroy(&(state->death));
 }
 
 void	check_death(t_state *state, t_philo *p)
@@ -85,23 +76,20 @@ void	check_death(t_state *state, t_philo *p)
 		i = -1;
 		while (++i < state->philo_amount && !(state->dead))
 		{
-			pthread_mutex_lock(&(state->meal_check));
-			if (time_diff(p[i].last_meal, timestamp()) > state->time_to_die)
-			{
-				print_message(state, i, DEAD);
-				state->dead = 1;
-			}
-			pthread_mutex_unlock(&(state->meal_check));
-			usleep(100);
+			check_death_loop(state, p, &i);
 		}
 		if (state->dead)
 			break ;
 		i = 0;
+		pthread_mutex_lock(&(state->ate));
 		while (state->num_eat != -1 && i < state->philo_amount && \
 			p[i].ate >= state->num_eat)
 			i++;
+		pthread_mutex_lock(&(state->all_ate_m));
 		if (i == state->philo_amount)
 			state->all_ate = 1;
+		pthread_mutex_unlock(&(state->all_ate_m));
+		pthread_mutex_unlock(&(state->ate));
 	}
 }
 
@@ -115,9 +103,9 @@ int	start(t_state *state)
 	state->start = timestamp();
 	while (i < state->philo_amount)
 	{
+		philos[i].last_meal = timestamp();
 		if (pthread_create(&(philos[i].thread_id), NULL, routine, &(philos[i])))
 			return (1);
-		philos[i].last_meal = timestamp();
 		i++;
 	}
 	check_death(state, state->philos);

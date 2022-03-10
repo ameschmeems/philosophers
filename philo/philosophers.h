@@ -6,7 +6,7 @@
 /*   By: kpucylo <kpucylo@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 17:00:10 by kpucylo           #+#    #+#             */
-/*   Updated: 2022/03/10 05:18:55 by kpucylo          ###   ########.fr       */
+/*   Updated: 2022/03/10 12:27:50 by kpucylo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,11 @@ typedef struct s_state
 	int				all_ate;
 	long long		start;
 	pthread_mutex_t	meal_check;
+	pthread_mutex_t	death;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	write;
+	pthread_mutex_t	ate;
+	pthread_mutex_t	all_ate_m;
 	t_philo			*philos;
 }	t_state;
 
@@ -75,5 +78,10 @@ int			ft_isdigit(int c);
 long long	timestamp(void);
 long long	time_diff(long long past, long long pres);
 void		schleep(long long time, t_state *state);
+
+//norm
+void		subroutine(t_philo *philo, t_state *state);
+void		philo_eats(t_philo *philo);
+void		check_death_loop(t_state *state, t_philo *p, int *i);
 
 #endif
